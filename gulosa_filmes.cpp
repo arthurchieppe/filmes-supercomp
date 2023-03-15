@@ -1,4 +1,5 @@
 #include <algorithm>
+#include <iomanip>
 #include <iostream>
 #include <vector>
 
@@ -20,7 +21,7 @@ bool is_available(filme &el, bool timetable[24]) {
 
 void print_programacao(vector<filme> &programacao) {
     for (auto &el : programacao) {
-        cout << el.h_inicio << " " << el.h_fim << " " << el.cat << "\n";
+        cout << el.h_inicio << " " << el.h_fim << el.cat << "\n";
     }
 }
 

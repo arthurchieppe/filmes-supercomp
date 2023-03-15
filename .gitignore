@@ -1,0 +1,2 @@
+# Ignore everything in input_files folder
+input_generator/input_files/*

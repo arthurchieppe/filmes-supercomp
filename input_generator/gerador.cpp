@@ -1,20 +1,21 @@
-#include <chrono>
-#include <random>
-#include <fstream>
 #include <boost/random.hpp>
+#include <chrono>
+#include <fstream>
+#include <random>
 
 using namespace std;
 
 int main(int argc, char *argv[]) {
     int n = atoi(argv[1]);
     int m = atoi(argv[2]);
+    string path = argv[3];
 
     ofstream inputFile;
-    inputFile.open("input.txt");
+    inputFile.open(path);
     inputFile << n << " " << m << endl;
 
     unsigned seed = chrono::system_clock::now().time_since_epoch().count();
-    default_random_engine generator (seed);
+    default_random_engine generator(seed);
 
     // Definindo distribuição normal com média de 3 e desvio padrão de 1
     normal_distribution<double> distribution_dif(3, 1.0);
@@ -25,7 +26,7 @@ int main(int argc, char *argv[]) {
     vector<int> maxFilmes(m); // Vetor para armazenar o máximo de filmes por categoria
     for (int i = 0; i < m; i++) {
         maxFilmes[i] = distribution_cat(generator); // Gerando o máximo de filmes para cada categoria
-        inputFile << maxFilmes[i] << " "; // Escrevendo o valor no arquivo de entrada
+        inputFile << maxFilmes[i] << " ";           // Escrevendo o valor no arquivo de entrada
     }
     inputFile << endl;
 
@@ -37,7 +38,6 @@ int main(int argc, char *argv[]) {
 
         inputFile << hora_inicio << " " << hora_fim << " " << categoria << endl;
     }
-
 
     inputFile.close();
     return 0;
