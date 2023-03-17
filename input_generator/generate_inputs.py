@@ -19,7 +19,8 @@ def main(n_movies: int, ncat: int):
     start_time = time.time()
     for i in range(1, n_movies+1, 50):
         for j in range(1, ncat+1):
-            os.system(f'./gerador {i} {j} "input_files/movies{i}_cat_{j}.txt"')
+            os.system(
+                f'./gerador {i} {j} "input_files/movies_{i}_cat_{j}.txt"')
     # Calculate time
     end_time = time.time()
     print(f'Elapsed time: {end_time - start_time}')
