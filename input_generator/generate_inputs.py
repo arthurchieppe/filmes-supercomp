@@ -1,6 +1,12 @@
 import argparse
 import os
 import time
+import multiprocessing
+
+
+def create_file(n_movies: int, n_cat: int):
+    os.system(
+        f'./gerador {n_movies} {n_cat} "input_files/movies_{n_movies}_cat_{n_cat}.txt"')
 
 
 def main(n_movies: int, ncat: int):
@@ -13,15 +19,15 @@ def main(n_movies: int, ncat: int):
     print('If not, please change the path to the correct directory')
     print('Press any key to continue')
     input()
-
+    print("Starting generation of inputs...\n")
     # Nested for loop to generate inputs
     # Get time
     start_time = time.time()
-    for i in range(1, n_movies+1, 50):
-        for j in range(1, ncat+1):
-            os.system(
-                f'./gerador {i} {j} "input_files/movies_{i}_cat_{j}.txt"')
-    # Calculate time
+    with multiprocessing.Pool() as pool:
+        pool.starmap(create_file, [(i, j) for i in range(
+            1, n_movies+1, 100) for j in range(1, ncat+1)])
+
+        # Calculate time
     end_time = time.time()
     print(f'Elapsed time: {end_time - start_time}')
 

@@ -4,6 +4,7 @@ import argparse
 import os
 import pandas as pd
 from pathlib import Path
+from tqdm.auto import tqdm
 
 
 def main(input_folder: str, heuristica: str):
@@ -11,9 +12,10 @@ def main(input_folder: str, heuristica: str):
 
     # Iterate over all files in the input folder
     df = pd.DataFrame(columns=['n_movies', 'n_cat', 'time'])
-    for file in os.listdir(input_folder):
-        # Add progress bar to for loop
-        print(f'Running {file}...', end='\r')
+
+    for file in tqdm(os.listdir(input_folder)):
+
+        # print(f'Running {file}...', end='\r')
 
         with open(input_folder / file) as f:
             start = time.perf_counter()
