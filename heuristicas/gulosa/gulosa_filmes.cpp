@@ -24,9 +24,24 @@ bool is_available(filme &el, bool (&timetable)[24], vector<int> &categorias) {
 }
 
 void print_filmes(vector<filme> &filmes) {
+    cout << "Numero total de filmes: " << filmes.size() << "\n\n";
+    cout << left << setw(10) << "H_Inicio"
+         << left << setw(10) << "H_Fim"
+         << left << setw(10) << "Categoria" << '\n';
+
     for (auto &el : filmes) {
-        cout << el.h_inicio << " " << el.h_fim << " " << el.cat << "\n";
+        cout << left << setw(10) << el.h_inicio
+             << left << setw(10) << el.h_fim
+             << left << setw(10) << el.cat << '\n';
     }
+}
+
+bool should_break(int &total_number_of_hours, long unsigned int &allowed_number_movies, vector<filme> &programacao) {
+    if (total_number_of_hours == 24)
+        return true;
+    if (allowed_number_movies == (programacao.size()))
+        return true;
+    return false;
 }
 
 int main(int argc, char **argv) {
@@ -65,14 +80,8 @@ int main(int argc, char **argv) {
     int total_number_of_hours = 0;
 
     for (auto &el : filmes) {
-        if (total_number_of_hours == 24)
+        if (should_break(total_number_of_hours, allowed_number_movies, programacao))
             break;
-        if (allowed_number_movies == (programacao.size()))
-            break;
-        if (el.h_inicio >= el.h_fim)
-            continue;
-        if (categorias[el.cat - 1] == 0)
-            continue;
 
         // Nao aceita filmes que comecam, por ex, 23 e terminam 1
         if (is_available(el, timetable, categorias)) {
@@ -84,6 +93,10 @@ int main(int argc, char **argv) {
             programacao.push_back(el);
         }
     }
-    // print_filmes(programacao);
-    return 0;
+    if (argc == 1)
+        print_filmes(programacao);
+    else {
+        cout << programacao.size() << endl;
+        return 0;
+    }
 }

@@ -11,7 +11,7 @@ def main(input_folder: str, heuristica: str):
     input_folder = Path(input_folder)
 
     # Iterate over all files in the input folder
-    df = pd.DataFrame(columns=['n_movies', 'n_cat', 'time'])
+    df = pd.DataFrame(columns=['n_movies', 'n_cat', 'time', "n_output"])
 
     for file in tqdm(os.listdir(input_folder)):
 
@@ -20,17 +20,20 @@ def main(input_folder: str, heuristica: str):
         with open(input_folder / file) as f:
             start = time.perf_counter()
             proc = subprocess.run(
-                [heuristica], input=f.read(), text=True, capture_output=True)
+                [heuristica, "no_output"], input=f.read(), text=True, capture_output=True)
             end = time.perf_counter()
             # Append results to dataframe without df.append for performance
             df.loc[len(df)] = [file.split('_')[1],
                                file.split('_')[3].split('.')[0],
-                               end - start]
+                               end - start,
+                               int(proc.stdout)]
 
             # print('Saída:', proc.stdout)
             # print('Stderr:', proc.stderr)
             # print('Tempo total(s):', end - start)
 
+    # Order df first by n_movies and then by n_cat
+    df.sort_values(by=['n_movies', 'n_cat'], inplace=True)
     df.to_csv(f'{heuristica.split("/")[-1]}.csv')
 
 

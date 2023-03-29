@@ -25,8 +25,15 @@ bool is_available(filme &el, bool (&timetable)[24], vector<int> &categorias) {
 }
 
 void print_filmes(vector<filme> &filmes) {
+    cout << "Numero total de filmes: " << filmes.size() << "\n\n";
+    cout << left << setw(10) << "H_Inicio"
+         << left << setw(10) << "H_Fim"
+         << left << setw(10) << "Categoria" << '\n';
+
     for (auto &el : filmes) {
-        cout << el.h_inicio << " " << el.h_fim << " " << el.cat << "\n";
+        cout << left << setw(10) << el.h_inicio
+             << left << setw(10) << el.h_fim
+             << left << setw(10) << el.cat << '\n';
     }
 }
 
@@ -115,6 +122,11 @@ int main(int argc, char **argv) {
         }
         i = i + 1;
     }
-    // print_filmes(programacao);
+    if (argc == 1)
+        print_filmes(programacao);
+    else {
+        cout << programacao.size() << endl;
+        return 0;
+    }
     return 0;
 }
