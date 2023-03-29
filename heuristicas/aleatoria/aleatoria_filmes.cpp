@@ -13,7 +13,7 @@ struct filme {
 };
 
 bool is_available(filme &el, bool (&timetable)[24], vector<int> &categorias) {
-    if (el.h_inicio > el.h_fim)
+    if (el.h_inicio >= el.h_fim)
         return false;
     if (categorias[el.cat - 1] == 0)
         return false;
@@ -43,6 +43,15 @@ bool should_break(int &total_number_of_hours, long unsigned int &allowed_number_
     if (allowed_number_movies == (programacao.size()))
         return true;
     return false;
+}
+
+void add_to_timetable(filme &el, bool (&timetable)[24], vector<int> &categorias, vector<filme> &programacao, int &total_number_of_hours) {
+    for (int i = el.h_inicio; i < el.h_fim; i++) {
+        timetable[i] = true;
+        total_number_of_hours++;
+    }
+    categorias[el.cat - 1]--;
+    programacao.push_back(el);
 }
 
 int main(int argc, char **argv) {
@@ -92,14 +101,8 @@ int main(int argc, char **argv) {
             break;
 
         // Nao aceita filmes que comecam, por ex, 23 e terminam 1
-        if (is_available(el, timetable, categorias)) {
-            for (int i = el.h_inicio; i < el.h_fim; i++) {
-                timetable[i] = true;
-                total_number_of_hours++;
-            }
-            categorias[el.cat - 1]--;
-            programacao.push_back(el);
-        }
+        if (is_available(el, timetable, categorias))
+            add_to_timetable(el, timetable, categorias, programacao, total_number_of_hours);
 
         if (should_break(total_number_of_hours, allowed_number_movies, programacao))
             break;
@@ -109,14 +112,9 @@ int main(int argc, char **argv) {
             int p = distributionInt(generator);
 
             if (is_available(filmes[p], timetable, categorias)) {
-                for (int i = filmes[p].h_inicio; i < filmes[p].h_fim; i++) {
-                    timetable[i] = true;
-                    total_number_of_hours++;
-                }
-                categorias[el.cat - 1]--;
-                programacao.push_back(filmes[p]);
+                add_to_timetable(filmes[p], timetable, categorias, programacao, total_number_of_hours);
 
-                filmes.erase(filmes.begin() + p - 1);
+                filmes.erase(filmes.begin() + p);
                 n_filmes -= 1;
             }
         }
@@ -126,7 +124,6 @@ int main(int argc, char **argv) {
         print_filmes(programacao);
     else {
         cout << programacao.size() << endl;
-        return 0;
     }
     return 0;
 }
