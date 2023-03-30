@@ -40,8 +40,10 @@ def main(input_folder: str, heuristica: str, early_stopping_rounds=None):
     df = df.sort_values(by=['n_movies', 'n_cat']).reset_index(drop=True)
     # print(df)
     # print(df.dtypes)
-    df.to_pickle(f'{heuristica.split("/")[-1]}.pkl')
-    df.to_csv(f'{heuristica.split("/")[-1]}.csv')
+    # Add datetime to filename
+    now = time.strftime("%Y%m%d-%H%M%S")
+    df.to_pickle(f'{heuristica.split("/")[-1]}_{now}.pkl')
+    df.to_csv(f'{heuristica.split("/")[-1]}_{now}.csv')
 
 
 if __name__ == '__main__':
