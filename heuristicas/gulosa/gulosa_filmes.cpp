@@ -23,8 +23,10 @@ bool is_available(filme &el, bool (&timetable)[24], vector<int> &categorias) {
     return true;
 }
 
-void print_filmes(vector<filme> &filmes) {
+void print_filmes(vector<filme> &filmes, int &total_number_of_hours) {
     cout << "Numero total de filmes: " << filmes.size() << "\n\n";
+    cout << "Numero total de horas: " << total_number_of_hours << "\n\n";
+
     cout << left << setw(10) << "H_Inicio"
          << left << setw(10) << "H_Fim"
          << left << setw(10) << "Categoria" << '\n';
@@ -96,7 +98,7 @@ int main(int argc, char **argv) {
             add_to_timetable(el, timetable, categorias, programacao, total_number_of_hours);
     }
     if (argc == 1)
-        print_filmes(programacao);
+        print_filmes(programacao, total_number_of_hours);
     else {
         cout << programacao.size() << endl;    // Número de filmes
         cout << total_number_of_hours << endl; // Número de horas
