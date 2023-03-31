@@ -25,7 +25,7 @@ def main(n_movies: int, ncat: int):
     start_time = time.time()
     with multiprocessing.Pool() as pool:
         pool.starmap(create_file, [(i, j) for i in range(
-            1, n_movies+1, 100) for j in range(1, ncat+1)])
+            1, n_movies+1, 50) for j in range(1, ncat+1)])
 
         # Calculate time
     end_time = time.time()

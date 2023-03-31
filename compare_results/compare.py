@@ -12,7 +12,8 @@ def main(input_folder: str, heuristica: str, early_stopping_rounds=None):
     input_folder = Path(input_folder)
 
     # Iterate over all files in the input folder
-    df = pd.DataFrame(columns=['n_movies', 'n_cat', 'time', "n_output"])
+    df = pd.DataFrame(columns=['n_movies', 'n_cat',
+                      'time', "n_movies_watched", "n_hours_watched"])
     early_stop = 0
     for file in tqdm(os.listdir(input_folder)):
 
@@ -27,11 +28,14 @@ def main(input_folder: str, heuristica: str, early_stopping_rounds=None):
             proc = subprocess.run(
                 [heuristica, "no_output"], input=f.read(), text=True, capture_output=True)
             end = time.perf_counter()
+            n_movies_watched = int(proc.stdout.split('\n')[0])
+            n_hours_watched = int(proc.stdout.split('\n')[1])
             # Append results to dataframe without df.append for performance
             df.loc[len(df)] = [int(file.split('_')[1]),
                                int(file.split('_')[3].split('.')[0]),
                                end - start,
-                               int(proc.stdout)]
+                               n_movies_watched,
+                               n_hours_watched]
 
         # print('Saída:', proc.stdout)
         # print('Stderr:', proc.stderr)
@@ -41,7 +45,7 @@ def main(input_folder: str, heuristica: str, early_stopping_rounds=None):
     # print(df)
     # print(df.dtypes)
     # Add datetime to filename
-    now = time.strftime("%Y%m%d-%H%M%S")
+    now = time.strftime("%Y-%m-%d-%H-%M-%S")
     df.to_pickle(f'{heuristica.split("/")[-1]}_{now}.pkl')
     df.to_csv(f'{heuristica.split("/")[-1]}_{now}.csv')
 

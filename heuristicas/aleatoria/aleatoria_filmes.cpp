@@ -38,7 +38,7 @@ void print_filmes(vector<filme> &filmes) {
 }
 
 bool should_break(int &total_number_of_hours, long unsigned int &allowed_number_movies, vector<filme> &programacao) {
-    if (total_number_of_hours == 24)
+    if (total_number_of_hours == 23) // 23 é o número máximo de filmes que podem ser exibidos
         return true;
     if (allowed_number_movies == (programacao.size()))
         return true;
@@ -123,7 +123,8 @@ int main(int argc, char **argv) {
     if (argc == 1)
         print_filmes(programacao);
     else {
-        cout << programacao.size() << endl;
+        cout << programacao.size() << endl;    // Número de filmes
+        cout << total_number_of_hours << endl; // Número de horas
     }
     return 0;
 }
