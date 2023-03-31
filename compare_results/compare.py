@@ -59,7 +59,7 @@ if __name__ == '__main__':
     parser.add_argument('-f', type=str,
                         help='Path da Heuristica a ser utilizada')
     parser.add_argument('-s', type=str, help="Number of early stopping rounds"
-                        " (default: 10)", default=None)
+                        " (default: None)", default=None)
 
     main(input_folder=parser.parse_args().i,
          heuristica=parser.parse_args().f,
