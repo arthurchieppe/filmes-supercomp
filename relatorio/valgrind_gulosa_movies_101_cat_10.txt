@@ -1,0 +1,158 @@
+--------------------------------------------------------------------------------
+Profile data file 'callgrind.out.4238' (creator: callgrind-3.18.1)
+--------------------------------------------------------------------------------
+I1 cache: 
+D1 cache: 
+LL cache: 
+Timerange: Basic block 0 - 460677
+Trigger: Program termination
+Profiled target:  ./gulosa (PID 4238, part 1)
+Events recorded:  Ir
+Events shown:     Ir
+Event sort order: Ir
+Thresholds:       0.01
+Include dirs:     
+User annotated:   gulosa_filmes.cpp
+Auto-annotation:  on
+
+--------------------------------------------------------------------------------
+Ir                 
+--------------------------------------------------------------------------------
+2,267,878 (100.0%)  PROGRAM TOTALS
+
+--------------------------------------------------------------------------------
+Ir                file:function
+--------------------------------------------------------------------------------
+487,598 (21.50%)  ./elf/./elf/dl-lookup.c:_dl_lookup_symbol_x'2 [/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1]
+
+--------------------------------------------------------------------------------
+-- User-annotated source: gulosa_filmes.cpp
+--------------------------------------------------------------------------------
+Ir             
+
+-- line 7 ----------------------------------------
+    .           
+    .           struct filme {
+    .               int h_inicio;
+    .               int h_fim;
+    .               int cat;
+    .           };
+    .           
+    .           bool is_available(filme &el, bool (&timetable)[24], vector<int> &categorias) {
+  303 ( 0.01%)      if (el.h_inicio >= el.h_fim)
+    .                   return false;
+  857 ( 0.04%)      if (categorias[el.cat - 1] == 0)
+    .                   return false;
+   81 ( 0.00%)      for (int i = el.h_inicio; i < el.h_fim; i++) {
+  261 ( 0.01%)          if (timetable[i] == true)
+    .                       return false;
+    .               }
+    .               return true;
+    .           }
+    .           
+   13 ( 0.00%)  void print_filmes(vector<filme> &filmes, int &total_number_of_hours) {
+    .               cout << "Numero total de filmes: " << filmes.size() << "\n\n";
+    7 ( 0.00%)      cout << "Numero total de horas: " << total_number_of_hours << "\n\n";
+30,422 ( 1.34%)  => ???:std::ostream::operator<<(int) (1x)
+    .           
+    .               cout << left << setw(10) << "H_Inicio"
+    .                    << left << setw(10) << "H_Fim"
+    .                    << left << setw(10) << "Categoria" << '\n';
+    .           
+   35 ( 0.00%)      for (auto &el : filmes) {
+   77 ( 0.00%)          cout << left << setw(10) << el.h_inicio
+142,764 ( 6.30%)  => ???:std::ostream::operator<<(int)'2 (11x)
+   66 ( 0.00%)               << left << setw(10) << el.h_fim
+134,673 ( 5.94%)  => ???:std::ostream::operator<<(int)'2 (11x)
+   77 ( 0.00%)               << left << setw(10) << el.cat << '\n';
+128,348 ( 5.66%)  => ???:std::ostream::operator<<(int)'2 (11x)
+    .               }
+   13 ( 0.00%)  }
+    .           
+    .           bool should_break(int &total_number_of_hours, long unsigned int &allowed_number_movies, vector<filme> &programacao) {
+  302 ( 0.01%)      if (total_number_of_hours == 23) // 23 é o número máximo de filmes que podem ser exibidos
+    .                   return true;
+  202 ( 0.01%)      if (allowed_number_movies == (programacao.size()))
+    .                   return true;
+    .               return false;
+    .           }
+    .           
+   11 ( 0.00%)  void add_to_timetable(filme &el, bool (&timetable)[24], vector<int> &categorias, vector<filme> &programacao, int &total_number_of_hours) {
+  117 ( 0.01%)      for (int i = el.h_inicio; i < el.h_fim; i++) {
+   43 ( 0.00%)          timetable[i] = true;
+   85 ( 0.00%)          total_number_of_hours++;
+    .               }
+   55 ( 0.00%)      categorias[el.cat - 1]--;
+    .               programacao.push_back(el);
+    6 ( 0.00%)  }
+    .           
+   13 ( 0.00%)  int main(int argc, char **argv) {
+    .               vector<filme> filmes;
+    .               vector<filme> programacao;
+    .               vector<int> categorias;
+    .           
+    2 ( 0.00%)      bool timetable[24] = {false};
+    .           
+    .               int n_filmes = 0;
+    1 ( 0.00%)      int n_cat = 0;
+    1 ( 0.00%)      int temp = 0;
+    .               long unsigned int allowed_number_movies = 0;
+    .           
+   14 ( 0.00%)      cin >> n_filmes >> n_cat;
+441,965 (19.49%)  => ???:std::istream::operator>>(int&) (1x)
+    2 ( 0.00%)      filmes.reserve(n_filmes);
+    .           
+   47 ( 0.00%)      for (int i = 0; i < n_cat; i++) {
+432,543 (19.07%)  => gulosa_filmes.cpp:main'2 (1x)
+   72 ( 0.00%)          cin >> temp;
+431,136 (19.01%)  => ???:std::istream::operator>>(int&)'2 (1x)
+    .                   categorias.push_back(temp);
+   20 ( 0.00%)          allowed_number_movies += temp;
+    .               }
+    .           
+    .               int h_inicio, h_fim, cat;
+  510 ( 0.02%)      for (int i = 0; i < n_filmes; i++) {
+417,658 (18.42%)  => gulosa_filmes.cpp:main'2 (1x)
+1,923 ( 0.08%)          cin >> h_inicio >> h_fim >> cat;
+417,651 (18.42%)  => ???:std::istream::operator>>(int&)'2 (1x)
+  404 ( 0.02%)          filmes.push_back({h_inicio, h_fim, cat});
+    .               }
+    .           
+  497 ( 0.02%)      sort(filmes.begin(), filmes.end(), [](auto &i, auto &j) { return i.h_fim < j.h_fim; });
+    .               // Print all filmes
+    .           
+    .               // print_filmes(filmes);
+    .           
+    2 ( 0.00%)      int total_number_of_hours = 0;
+    .           
+  304 ( 0.01%)      for (auto &el : filmes) {
+    .                   if (should_break(total_number_of_hours, allowed_number_movies, programacao))
+    .                       break;
+    .           
+    .                   // Nao aceita filmes que comecam, por ex, 23 e terminam 1
+    .                   if (is_available(el, timetable, categorias))
+   71 ( 0.00%)              add_to_timetable(el, timetable, categorias, programacao, total_number_of_hours);
+42,207 ( 1.86%)  => gulosa_filmes.cpp:add_to_timetable(filme&, bool (&) [24], std::vector<int, std::allocator<int> >&, std::vector<filme, std::allocator<filme> >&, int&) (1x)
+    .               }
+    2 ( 0.00%)      if (argc == 1)
+    4 ( 0.00%)          print_filmes(programacao, total_number_of_hours);
+37,379 ( 1.65%)  => gulosa_filmes.cpp:print_filmes(std::vector<filme, std::allocator<filme> >&, int&) (1x)
+    .               else {
+    .                   cout << programacao.size() << endl;    // Número de filmes
+    .                   cout << total_number_of_hours << endl; // Número de horas
+    .               }
+    .               return 0;
+   20 ( 0.00%)  }
+
+    4 ( 0.00%)  <counts for unidentified lines in gulosa_filmes.cpp>
+
+--------------------------------------------------------------------------------
+The following files chosen for auto-annotation could not be found:
+--------------------------------------------------------------------------------
+  ./elf/./elf/dl-lookup.c
+
+--------------------------------------------------------------------------------
+Ir             
+--------------------------------------------------------------------------------
+6,520 ( 0.29%)  events annotated
+

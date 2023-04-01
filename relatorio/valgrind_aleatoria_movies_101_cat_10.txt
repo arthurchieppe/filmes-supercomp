@@ -1,0 +1,186 @@
+--------------------------------------------------------------------------------
+Profile data file 'callgrind.out.4590' (creator: callgrind-3.18.1)
+--------------------------------------------------------------------------------
+I1 cache: 
+D1 cache: 
+LL cache: 
+Timerange: Basic block 0 - 459780
+Trigger: Program termination
+Profiled target:  ./aleatoria (PID 4590, part 1)
+Events recorded:  Ir
+Events shown:     Ir
+Event sort order: Ir
+Thresholds:       0.01
+Include dirs:     
+User annotated:   aleatoria_filmes.cpp
+Auto-annotation:  on
+
+--------------------------------------------------------------------------------
+Ir                 
+--------------------------------------------------------------------------------
+2,265,507 (100.0%)  PROGRAM TOTALS
+
+--------------------------------------------------------------------------------
+Ir                file:function
+--------------------------------------------------------------------------------
+487,598 (21.52%)  ./elf/./elf/dl-lookup.c:_dl_lookup_symbol_x'2 [/usr/lib/aarch64-linux-gnu/ld-linux-aarch64.so.1]
+
+--------------------------------------------------------------------------------
+-- User-annotated source: aleatoria_filmes.cpp
+--------------------------------------------------------------------------------
+Ir             
+
+-- line 8 ----------------------------------------
+    .           
+    .           struct filme {
+    .               int h_inicio;
+    .               int h_fim;
+    .               int cat;
+    .           };
+    .           
+    .           bool is_available(filme &el, bool (&timetable)[24], vector<int> &categorias) {
+  395 ( 0.02%)      if (el.h_inicio >= el.h_fim)
+    .                   return false;
+  953 ( 0.04%)      if (categorias[el.cat - 1] == 0)
+    .                   return false;
+   81 ( 0.00%)      for (int i = el.h_inicio; i < el.h_fim; i++) {
+  277 ( 0.01%)          if (timetable[i] == true)
+    .                       return false;
+    .               }
+    .               return true;
+    .           }
+    .           
+   13 ( 0.00%)  void print_filmes(vector<filme> &filmes, int &total_number_of_hours) {
+    .               cout << "Numero total de filmes: " << filmes.size() << "\n\n";
+    7 ( 0.00%)      cout << "Numero total de horas: " << total_number_of_hours << "\n\n";
+24,038 ( 1.06%)  => ???:std::ostream::operator<<(int) (1x)
+    .           
+    .               cout << left << setw(10) << "H_Inicio"
+    .                    << left << setw(10) << "H_Fim"
+    .                    << left << setw(10) << "Categoria" << '\n';
+    .           
+   26 ( 0.00%)      for (auto &el : filmes) {
+   56 ( 0.00%)          cout << left << setw(10) << el.h_inicio
+78,559 ( 3.47%)  => ???:std::ostream::operator<<(int)'2 (8x)
+   48 ( 0.00%)               << left << setw(10) << el.h_fim
+72,194 ( 3.19%)  => ???:std::ostream::operator<<(int)'2 (8x)
+   56 ( 0.00%)               << left << setw(10) << el.cat << '\n';
+67,595 ( 2.98%)  => ???:std::ostream::operator<<(int)'2 (8x)
+    .               }
+   13 ( 0.00%)  }
+    .           
+    .           bool should_break(int &total_number_of_hours, long unsigned int &allowed_number_movies, vector<filme> &programacao) {
+  414 ( 0.02%)      if (total_number_of_hours == 23) // 23 é o número máximo de filmes que podem ser exibidos
+39,923 ( 1.76%)  => /usr/include/c++/11/bits/stl_vector.h:main (1x)
+39,880 ( 1.76%)  => /usr/include/c++/11/bits/stl_vector.h:main'2 (1x)
+    .                   return true;
+  210 ( 0.01%)      if (allowed_number_movies == (programacao.size()))
+    .                   return true;
+    .               return false;
+    .           }
+    .           
+    8 ( 0.00%)  void add_to_timetable(filme &el, bool (&timetable)[24], vector<int> &categorias, vector<filme> &programacao, int &total_number_of_hours) {
+   96 ( 0.00%)      for (int i = el.h_inicio; i < el.h_fim; i++) {
+   34 ( 0.00%)          timetable[i] = true;
+   70 ( 0.00%)          total_number_of_hours++;
+    .               }
+   40 ( 0.00%)      categorias[el.cat - 1]--;
+    .               programacao.push_back(el);
+    4 ( 0.00%)  }
+    .           
+   14 ( 0.00%)  int main(int argc, char **argv) {
+    .               vector<filme> filmes;
+    .               vector<filme> programacao;
+    .               vector<int> categorias;
+    .           
+    2 ( 0.00%)      bool timetable[24] = {false};
+    .           
+    .               int n_filmes = 0;
+    1 ( 0.00%)      int n_cat = 0;
+    1 ( 0.00%)      int temp = 0;
+    1 ( 0.00%)      long unsigned int allowed_number_movies = 0;
+    .           
+   14 ( 0.00%)      cin >> n_filmes >> n_cat;
+439,563 (19.40%)  => ???:std::istream::operator>>(int&) (1x)
+    2 ( 0.00%)      filmes.reserve(n_filmes);
+    .           
+    .               // Gerador random:
+    .               default_random_engine generator;
+    .               generator.seed(42);
+    .           
+    .               uniform_real_distribution<double>
+    .                   distribution(0.0, 1.0);
+    .           
+   46 ( 0.00%)      for (int i = 0; i < n_cat; i++) {
+430,138 (18.99%)  => aleatoria_filmes.cpp:main'2 (1x)
+   72 ( 0.00%)          cin >> temp;
+430,131 (18.99%)  => ???:std::istream::operator>>(int&)'2 (1x)
+    .                   categorias.push_back(temp);
+   20 ( 0.00%)          allowed_number_movies += temp;
+    .               }
+    .           
+    .               int h_inicio, h_fim, cat;
+  510 ( 0.02%)      for (int i = 0; i < n_filmes; i++) {
+415,252 (18.33%)  => aleatoria_filmes.cpp:main'2 (1x)
+1,923 ( 0.08%)          cin >> h_inicio >> h_fim >> cat;
+415,245 (18.33%)  => ???:std::istream::operator>>(int&)'2 (1x)
+  404 ( 0.02%)          filmes.push_back({h_inicio, h_fim, cat});
+    .               }
+    .           
+  497 ( 0.02%)      sort(filmes.begin(), filmes.end(), [](auto &i, auto &j) { return i.h_fim < j.h_fim; });
+    .               // Print all filmes
+    .           
+    .               // print_filmes(filmes);
+    .           
+    3 ( 0.00%)      int total_number_of_hours = 0;
+    .               int i = 1; // Posicao do item nao obtido
+    .           
+  303 ( 0.01%)      for (auto &el : filmes) {
+    .                   if (should_break(total_number_of_hours, allowed_number_movies, programacao))
+    .                       break;
+    .           
+    .                   // Nao aceita filmes que comecam, por ex, 23 e terminam 1
+    .                   if (is_available(el, timetable, categorias))
+   25 ( 0.00%)              add_to_timetable(el, timetable, categorias, programacao, total_number_of_hours);
+39,386 ( 1.74%)  => aleatoria_filmes.cpp:add_to_timetable(filme&, bool (&) [24], std::vector<int, std::allocator<int> >&, std::vector<filme, std::allocator<filme> >&, int&)'2 (4x)
+    .           
+    .                   if (should_break(total_number_of_hours, allowed_number_movies, programacao))
+    .                       break;
+    .           
+  375 ( 0.02%)          if (distribution(generator) > 0.75 && i < n_filmes) {
+    .                       uniform_int_distribution<int> distributionInt(i, n_filmes - 1);
+    .                       int p = distributionInt(generator);
+    .           
+    .                       if (is_available(filmes[p], timetable, categorias)) {
+   24 ( 0.00%)                  add_to_timetable(filmes[p], timetable, categorias, programacao, total_number_of_hours);
+75,922 ( 3.35%)  => aleatoria_filmes.cpp:add_to_timetable(filme&, bool (&) [24], std::vector<int, std::allocator<int> >&, std::vector<filme, std::allocator<filme> >&, int&)'2 (3x)
+39,628 ( 1.75%)  => aleatoria_filmes.cpp:add_to_timetable(filme&, bool (&) [24], std::vector<int, std::allocator<int> >&, std::vector<filme, std::allocator<filme> >&, int&) (1x)
+    .           
+    .                           filmes.erase(filmes.begin() + p);
+    .                           n_filmes -= 1;
+    .                       }
+    .                   }
+  101 ( 0.00%)          i = i + 1;
+    .               }
+    2 ( 0.00%)      if (argc == 1)
+    4 ( 0.00%)          print_filmes(programacao, total_number_of_hours);
+  424 ( 0.02%)  => /usr/include/c++/11/bits/stl_vector.h:main'2 (1x)
+    .               else {
+    .                   cout << programacao.size() << endl;    // Número de filmes
+    .                   cout << total_number_of_hours << endl; // Número de horas
+    .               }
+    .               return 0;
+   21 ( 0.00%)  }
+
+    4 ( 0.00%)  <counts for unidentified lines in aleatoria_filmes.cpp>
+
+--------------------------------------------------------------------------------
+The following files chosen for auto-annotation could not be found:
+--------------------------------------------------------------------------------
+  ./elf/./elf/dl-lookup.c
+
+--------------------------------------------------------------------------------
+Ir             
+--------------------------------------------------------------------------------
+7,166 ( 0.32%)  events annotated
+
