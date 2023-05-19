@@ -66,7 +66,7 @@ void insertMovie(vector<int> &start_times, vector<int> &end_times, vector<int> &
     auto it = upper_bound(end_times.begin(), end_times.end(), movie.end_time);
 
     // Calculate the insertion index
-    int index = distance(end_times.begin(), it);
+    int index = it - end_times.begin();
 
     // Insert the new movie at the calculated index
     start_times.insert(start_times.begin() + index, movie.start_time);
@@ -81,11 +81,9 @@ int main(int argc, char **argv) {
 
     cin >> N >> M;
 
-    vector<int> start_times(N);
-    vector<int> end_times(N);
-    vector<int> movie_categories(N);
+    vector<filme> filmes;
 
-    vector<int> allowed_categories(M);
+    vector<int> allowed_categories;
 
     int temp = 0;
     for (int i = 0; i < M; i++) {
@@ -95,9 +93,30 @@ int main(int argc, char **argv) {
     }
 
     int h_inicio, h_fim, cat;
+    int to_subctract = 0;
     for (int i = 0; i < N; i++) {
         cin >> h_inicio >> h_fim >> cat;
-        insertMovie(start_times, end_times, movie_categories, {h_inicio, h_fim, cat});
+        cout << h_inicio << " " << h_fim << " " << cat << endl;
+        // Ignore movies that start and end at the same time, or movies that start before midnight
+        if (h_inicio >= h_fim) {
+            to_subctract++;
+            continue;
+        }
+        filmes.push_back({h_inicio, h_fim, cat});
+    }
+    N -= to_subctract;
+    sort(filmes.begin(), filmes.end(), [](auto &i, auto &j) { return i.end_time < j.end_time; });
+
+    cout << "Numero total de filmes: " << N << "\n\n";
+    vector<int> start_times(N);
+    vector<int> end_times(N);
+    vector<int> movie_categories(N);
+
+    // Fill start times, end times and movie categories vectors
+    for (int i = 0; i < N; i++) {
+        start_times[i] = filmes[i].start_time;
+        end_times[i] = filmes[i].end_time;
+        movie_categories[i] = filmes[i].category;
     }
 
     // Print start times end times
