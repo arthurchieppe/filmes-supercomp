@@ -73,24 +73,21 @@ int main(int argc, char **argv) {
     int max_watched = 0;
 
 // Generate all combinations
-#pragma omp parallel
-    {
-#pragma omp for
-        for (long unsigned int i = 1; i < totalCombinations; ++i) {
-            vector<int> combination(n_filmes);
+#pragma omp parallel for
+    for (long unsigned int i = 1; i < totalCombinations; ++i) {
+        vector<int> combination(n_filmes);
 
-            for (int j = 0; j < n_filmes; ++j) {
-                if (i & (1 << j)) {
-                    combination[j] = 1;
-                }
+        for (int j = 0; j < n_filmes; ++j) {
+            if (i & (1 << j)) {
+                combination[j] = 1;
             }
-            int watched = checkIsValid(combination, categorias, filmes);
-            if (watched > max_watched) {
+        }
+        int watched = checkIsValid(combination, categorias, filmes);
+        if (watched > max_watched) {
 #pragma omp critical
-                {
-                    if (watched > max_watched) {
-                        max_watched = watched;
-                    }
+            {
+                if (watched > max_watched) {
+                    max_watched = watched;
                 }
             }
         }
