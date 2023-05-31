@@ -21,7 +21,11 @@ int checkIsValid(vector<int> &combination, vector<int> &categorias, vector<filme
         if (combination[i] == 1) {
             for (unsigned long int j = i + 1; j < combination.size(); j++) {
                 if (combination[j] == 1) {
+                    // Checa por overlap
                     if (filmes[i].h_inicio < filmes[j].h_fim && filmes[j].h_inicio < filmes[i].h_fim)
+                        return 0;
+                    // Checa por dias diferentes
+                    if (filmes[i].h_inicio >= filmes[i].h_fim || filmes[j].h_inicio >= filmes[j].h_fim)
                         return 0;
                 }
             }
