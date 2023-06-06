@@ -14,7 +14,10 @@ int main(int argc, char *argv[]) {
     inputFile.open(path);
     inputFile << n << " " << m << endl;
 
-    unsigned seed = chrono::system_clock::now().time_since_epoch().count();
+    // unsigned seed = chrono::system_clock::now().time_since_epoch().count();
+    // Fixed seed to reproduce results:
+    unsigned seed = 123;
+
     default_random_engine generator(seed);
 
     // Definindo distribuição normal com média de 3 e desvio padrão de 1
