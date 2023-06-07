@@ -80,11 +80,17 @@ int main(int argc, char **argv) {
         allowed_number_movies += temp;
     }
 
+    int invalidMovies = 0;
     int h_inicio, h_fim, cat;
     for (int i = 0; i < n_filmes; i++) {
         cin >> h_inicio >> h_fim >> cat;
+        if (h_inicio >= h_fim) {
+            invalidMovies++;
+            continue;
+        }
         filmes.push_back({h_inicio, h_fim, cat});
     }
+    n_filmes -= invalidMovies;
 
     sort(filmes.begin(), filmes.end(), [](auto &i, auto &j) { return i.h_fim < j.h_fim; });
 
