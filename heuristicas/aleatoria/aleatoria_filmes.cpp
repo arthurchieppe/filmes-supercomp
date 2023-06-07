@@ -129,11 +129,12 @@ int main(int argc, char **argv) {
         }
         i = i + 1;
     }
-    if (argc == 1)
-        print_filmes(programacao, total_number_of_hours);
-    else {
-        cout << programacao.size() << endl;    // Número de filmes
-        cout << total_number_of_hours << endl; // Número de horas
-    }
+    // if (argc == 1)
+    //     print_filmes(programacao, total_number_of_hours);
+    // else {
+    // Print the number of valid movies
+    cout << n_filmes << endl;           // Número de filmes
+    cout << programacao.size() << endl; // Número de horas
+    // }
     return 0;
 }

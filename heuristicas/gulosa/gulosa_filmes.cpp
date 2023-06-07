@@ -104,11 +104,11 @@ int main(int argc, char **argv) {
         if (is_available(el, timetable, categorias))
             add_to_timetable(el, timetable, categorias, programacao, total_number_of_hours);
     }
-    if (argc == 1)
-        print_filmes(programacao, total_number_of_hours);
-    else {
-        cout << programacao.size() << endl;    // Número de filmes
-        cout << total_number_of_hours << endl; // Número de horas
-    }
+    // if (argc == 1)
+    //     print_filmes(programacao, total_number_of_hours);
+    // else {
+    cout << n_filmes << endl;           // Número de filmes
+    cout << programacao.size() << endl; // Número de horas
+    // }
     return 0;
 }
